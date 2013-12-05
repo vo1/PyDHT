@@ -101,7 +101,7 @@ PyDHT_read(PyObject *self, PyObject *args)
 
 static PyMethodDef PyDHTMethods[] = {
     {"init", (PyCFunction)PyDHT_init, METH_NOARGS, "Initialize BCM2835 for DHT."},
-    {"read", (PyCFunction)PyDHT_read, METH_VARARGS, "Reads temp/humidity from DHT [sensor] at [pin]."},
+    {"read", (PyCFunction)PyDHT_read, METH_VARARGS, "Reads temp/humidity from DHT [sensor] at [pin] with an internal [delay] ms."},
     {"close", (PyCFunction)PyDHT_close, METH_NOARGS, "Close BCM2835 library."}
 };
 

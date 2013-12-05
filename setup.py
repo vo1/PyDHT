@@ -7,7 +7,7 @@ pydht = Extension('PyDHT',
                     sources = ['src/PyDHT.c'])
 
 setup (name = 'PyDHT',
-       version = '0.0.5',
+       version = '0.0.6',
        description = 'PyDHT based on Adafruit Raspberry-Pi Python Code Library by Limor Fried, Kevin Townsend and Mikey Sklar',
 	   author='Vo1',
 	   author_email='insyon@gmail.com',
@@ -18,5 +18,5 @@ setup (name = 'PyDHT',
            "Development Status :: 3 - Alpha",
 	       "Topic :: System :: Hardware"
 	   ],
-	   url='http://www.google.com/',
+	   url='https://github.com/vo1/PyDHT',
 	   ext_modules = [pydht])

@@ -1,0 +1,14 @@
+Metadata-Version: 0.1
+Name: PyDHT
+Version: 0.0.1
+Summary: Python extension for DHT sensors (DHT11/22/AM2302).
+Home-page: https://github.com/vo1/PyDHT
+Author: Vo1
+Author-email: insyon@gmail.com
+License: GPLv2
+Description: DHT sensor reading for rPi
+Keywords: raspberry pi,bcm2835,gpio,dht11,dht22,am2302,adafruit
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Development Status :: 3 - Alpha
+Classifier: Topic :: System :: Hardware

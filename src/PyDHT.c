@@ -52,9 +52,14 @@ PyDHT_read(PyObject *self, PyObject *args)
 
   data[0] = data[1] = data[2] = data[3] = data[4] = 0;
 
-  // wait for pin to drop?
+  // wait for pin to drop
+  uint16_t micros_waited = 0;
   while (bcm2835_gpio_lev(pin) == 1) {
+    if (micros_waited == 1000) {
+      Py_RETURN_NONE;
+    }
     usleep(1);
+    ++micros_waited;
   }
 
   // read data!

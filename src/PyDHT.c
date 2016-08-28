@@ -52,9 +52,14 @@ PyDHT_read(PyObject *self, PyObject *args)
 
   data[0] = data[1] = data[2] = data[3] = data[4] = 0;
 
-  // wait for pin to drop?
+  // wait for pin to drop
+  uint16_t micros_waited = 0;
   while (bcm2835_gpio_lev(pin) == 1) {
+    if (micros_waited == 1000) {
+      Py_RETURN_NONE;
+    }
     usleep(1);
+    ++micros_waited;
   }
 
   // read data!
@@ -103,19 +108,46 @@ static PyMethodDef PyDHTMethods[] = {
     {"init", (PyCFunction)PyDHT_init, METH_NOARGS, "Initialize BCM2835 for DHT."},
     {"read", (PyCFunction)PyDHT_read, METH_VARARGS, "Reads temp/humidity from DHT [sensor] at [pin] with an internal [delay] ms."},
     {"close", (PyCFunction)PyDHT_close, METH_NOARGS, "Close BCM2835 library."}
+#if PY_MAJOR_VERSION >= 3
+    ,
+    {NULL, NULL}
+#endif
 };
 
-PyMODINIT_FUNC
-initPyDHT(void)
+#if PY_MAJOR_VERSION >= 3
+static struct PyModuleDef PyDHTModule = {
+    PyModuleDef_HEAD_INIT,
+    "PyDHT",
+    NULL,
+    -1,
+    PyDHTMethods
+};
+
+PyMODINIT_FUNC PyInit_PyDHT(void)
+#else
+PyMODINIT_FUNC initPyDHT(void)
+#endif
 {
     PyObject *m;
 
+#if PY_MAJOR_VERSION >= 3
+    m = PyModule_Create(&PyDHTModule);
+#else
     m = Py_InitModule("PyDHT", PyDHTMethods);
+#endif
     if (m == NULL)
+#if PY_MAJOR_VERSION >= 3
+        return NULL;
+#else
         return;
+#endif
 
     // Constants
-    PyModule_AddIntConstant(m,"DHT11", DHT11);
-    PyModule_AddIntConstant(m,"DHT22", DHT22);
-    PyModule_AddIntConstant(m,"AM2302",AM2302);
+    PyModule_AddIntConstant(m, "DHT11", DHT11);
+    PyModule_AddIntConstant(m, "DHT22", DHT22);
+    PyModule_AddIntConstant(m, "AM2302", AM2302);
+
+#if PY_MAJOR_VERSION >= 3
+    return m;
+#endif
 }
